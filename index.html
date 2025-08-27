@@ -3,354 +3,814 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Homeschooling Using AI</title>
+    <title>HomeschoolAI - Revolutionize Learning</title>
     <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+        
         :root {
-            --primary-color: #4a6fa5;
-            --secondary-color: #7e57c2;
-            --accent-color: #26c6da;
-            --text-color: #333;
-            --light-bg: #f9f9f9;
-            --dark-bg: #283747;
+            --primary: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            --primary-solid: #667eea;
+            --secondary: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            --accent: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+            --success: #10b981;
+            --warning: #f59e0b;
+            --error: #ef4444;
+            --dark: #0f172a;
+            --gray-900: #111827;
+            --gray-800: #1f2937;
+            --gray-700: #374151;
+            --gray-600: #4b5563;
+            --gray-500: #6b7280;
+            --gray-400: #9ca3af;
+            --gray-300: #d1d5db;
+            --gray-200: #e5e7eb;
+            --gray-100: #f3f4f6;
+            --gray-50: #f9fafb;
+            --white: #ffffff;
+            --glass: rgba(255, 255, 255, 0.1);
+            --glass-border: rgba(255, 255, 255, 0.2);
+            --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+            --shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1);
+            --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+            --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+            --shadow-xl: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
+            --shadow-2xl: 0 25px 50px -12px rgb(0 0 0 / 0.25);
         }
         
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        html {
+            scroll-behavior: smooth;
+            scroll-padding-top: 80px;
         }
         
         body {
-            color: var(--text-color);
+            font-family: 'Inter', sans-serif;
             line-height: 1.6;
+            color: var(--gray-800);
+            overflow-x: hidden;
+            background: var(--white);
         }
         
-        header {
-            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
-            color: white;
-            text-align: center;
-            padding: 4rem 1rem;
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
         }
         
-        .header-content {
-            max-width: 800px;
-            margin: 0 auto;
+        ::-webkit-scrollbar-track {
+            background: var(--gray-100);
         }
         
-        h1 {
-            font-size: 2.8rem;
-            margin-bottom: 1rem;
+        ::-webkit-scrollbar-thumb {
+            background: var(--primary);
+            border-radius: 4px;
         }
         
-        .tagline {
-            font-size: 1.2rem;
-            margin-bottom: 2rem;
+        /* Animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
         
-        .cta-button {
-            display: inline-block;
-            background-color: var(--accent-color);
-            color: white;
-            padding: 0.8rem 1.8rem;
-            border-radius: 30px;
-            text-decoration: none;
-            font-weight: bold;
-            transition: transform 0.3s, box-shadow 0.3s;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        @keyframes fadeInLeft {
+            from {
+                opacity: 0;
+                transform: translateX(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
         }
         
-        .cta-button:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 6px 8px rgba(0,0,0,0.15);
+        @keyframes fadeInRight {
+            from {
+                opacity: 0;
+                transform: translateX(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
         }
         
-        nav {
-            background-color: white;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-            position: sticky;
+        @keyframes pulse {
+            0%, 100% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.05);
+            }
+        }
+        
+        @keyframes float {
+            0%, 100% {
+                transform: translateY(0);
+            }
+            50% {
+                transform: translateY(-10px);
+            }
+        }
+        
+        @keyframes glow {
+            0%, 100% {
+                box-shadow: 0 0 20px rgba(102, 126, 234, 0.3);
+            }
+            50% {
+                box-shadow: 0 0 40px rgba(102, 126, 234, 0.6);
+            }
+        }
+        
+        .animate-fade-in-up {
+            animation: fadeInUp 0.6s ease-out forwards;
+        }
+        
+        .animate-fade-in-left {
+            animation: fadeInLeft 0.6s ease-out forwards;
+        }
+        
+        .animate-fade-in-right {
+            animation: fadeInRight 0.6s ease-out forwards;
+        }
+        
+        .animate-float {
+            animation: float 3s ease-in-out infinite;
+        }
+        
+        /* Header & Navigation */
+        .header {
+            position: relative;
+            min-height: 100vh;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+        
+        .header::before {
+            content: '';
+            position: absolute;
             top: 0;
-            z-index: 100;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.05'%3E%3Cpath d='m36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E") repeat;
+            opacity: 0.1;
+        }
+        
+        .nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+            z-index: 1000;
+            transition: all 0.3s ease;
         }
         
         .nav-container {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
             max-width: 1200px;
             margin: 0 auto;
-            padding: 1rem;
+            padding: 1rem 2rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
         }
         
         .logo {
-            font-weight: bold;
-            font-size: 1.5rem;
-            color: var(--primary-color);
+            font-size: 1.75rem;
+            font-weight: 800;
+            background: var(--primary);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
         }
         
         .nav-links {
             display: flex;
             list-style: none;
-        }
-        
-        .nav-links li {
-            margin-left: 2rem;
+            gap: 2rem;
         }
         
         .nav-links a {
-            color: var(--text-color);
             text-decoration: none;
-            transition: color 0.3s;
+            color: var(--gray-700);
+            font-weight: 500;
+            font-size: 0.95rem;
+            position: relative;
+            transition: all 0.3s ease;
         }
         
         .nav-links a:hover {
-            color: var(--primary-color);
+            color: var(--primary-solid);
+            transform: translateY(-2px);
         }
         
-        section {
-            padding: 5rem 1rem;
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 50%;
+            width: 0;
+            height: 2px;
+            background: var(--primary);
+            transition: all 0.3s ease;
+            transform: translateX(-50%);
         }
         
-        section:nth-child(even) {
-            background-color: var(--light-bg);
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+        
+        .mobile-menu-btn {
+            display: none;
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            color: var(--gray-700);
+            cursor: pointer;
+        }
+        
+        /* Hero Section */
+        .hero {
+            text-align: center;
+            color: white;
+            position: relative;
+            z-index: 2;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+        
+        .hero h1 {
+            font-size: clamp(3rem, 8vw, 6rem);
+            font-weight: 800;
+            margin-bottom: 1.5rem;
+            background: linear-gradient(45deg, #ffffff, #f0f9ff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            line-height: 1.1;
+        }
+        
+        .hero-subtitle {
+            font-size: clamp(1.2rem, 3vw, 1.5rem);
+            margin-bottom: 3rem;
+            opacity: 0.9;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+            font-weight: 400;
+        }
+        
+        .cta-buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-bottom: 4rem;
+        }
+        
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 1rem 2rem;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            min-width: 160px;
+            justify-content: center;
+        }
+        
+        .btn-primary {
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            backdrop-filter: blur(10px);
+        }
+        
+        .btn-primary:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: translateY(-3px);
+            box-shadow: var(--shadow-xl);
+        }
+        
+        .btn-secondary {
+            background: white;
+            color: var(--primary-solid);
+            border: 2px solid transparent;
+        }
+        
+        .btn-secondary:hover {
+            transform: translateY(-3px);
+            box-shadow: var(--shadow-xl);
+            background: var(--gray-50);
+        }
+        
+        /* Stats */
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 2rem;
+            margin-top: 4rem;
+        }
+        
+        .stat {
+            text-align: center;
+            padding: 1.5rem;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 16px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: 800;
+            color: white;
+            margin-bottom: 0.5rem;
+        }
+        
+        .stat-label {
+            font-size: 0.9rem;
+            opacity: 0.8;
+        }
+        
+        /* Sections */
+        .section {
+            padding: 6rem 0;
+            position: relative;
+        }
+        
+        .section:nth-child(even) {
+            background: var(--gray-50);
         }
         
         .container {
             max-width: 1200px;
             margin: 0 auto;
+            padding: 0 2rem;
+        }
+        
+        .section-header {
+            text-align: center;
+            margin-bottom: 4rem;
+        }
+        
+        .section-badge {
+            display: inline-block;
+            padding: 0.5rem 1rem;
+            background: var(--accent);
+            color: white;
+            border-radius: 50px;
+            font-size: 0.875rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
         }
         
         .section-title {
-            text-align: center;
-            margin-bottom: 3rem;
+            font-size: clamp(2.5rem, 5vw, 3.5rem);
+            font-weight: 800;
+            color: var(--gray-900);
+            margin-bottom: 1rem;
+            line-height: 1.2;
         }
         
-        .section-title h2 {
-            font-size: 2.2rem;
-            color: var(--primary-color);
-            position: relative;
-            display: inline-block;
+        .section-description {
+            font-size: 1.25rem;
+            color: var(--gray-600);
+            max-width: 600px;
+            margin: 0 auto;
+            line-height: 1.6;
         }
         
-        .section-title h2::after {
-            content: '';
-            position: absolute;
-            bottom: -10px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 50px;
-            height: 3px;
-            background-color: var(--accent-color);
-        }
-        
-        .benefits-container {
+        /* Benefits Grid */
+        .benefits-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
             gap: 2rem;
+            margin-top: 3rem;
         }
         
         .benefit-card {
-            background-color: white;
-            border-radius: 8px;
+            background: white;
+            border-radius: 24px;
+            padding: 2.5rem;
+            box-shadow: var(--shadow-lg);
+            border: 1px solid var(--gray-200);
+            position: relative;
             overflow: hidden;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-            transition: transform 0.3s;
+            transition: all 0.3s ease;
+        }
+        
+        .benefit-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: var(--primary);
         }
         
         .benefit-card:hover {
-            transform: translateY(-10px);
+            transform: translateY(-8px);
+            box-shadow: var(--shadow-2xl);
         }
         
         .benefit-icon {
-            background-color: var(--primary-color);
-            color: white;
-            font-size: 2rem;
-            padding: 1.5rem;
-            text-align: center;
-        }
-        
-        .benefit-content {
-            padding: 1.5rem;
-        }
-        
-        .benefit-content h3 {
-            margin-bottom: 1rem;
-            color: var(--primary-color);
-        }
-        
-        .tools-container {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 2rem;
-        }
-        
-        .tool-card {
-            background-color: white;
-            border-radius: 8px;
-            overflow: hidden;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-            transition: transform 0.3s;
-        }
-        
-        .tool-card:hover {
-            transform: translateY(-5px);
-        }
-        
-        .tool-img {
-            height: 200px;
-            background-color: #e0e0e0;
+            width: 60px;
+            height: 60px;
+            border-radius: 16px;
+            background: var(--primary);
             display: flex;
             align-items: center;
             justify-content: center;
             font-size: 1.5rem;
-            font-weight: bold;
-            color: #666;
+            margin-bottom: 1.5rem;
+            color: white;
+        }
+        
+        .benefit-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--gray-900);
+            margin-bottom: 1rem;
+        }
+        
+        .benefit-description {
+            color: var(--gray-600);
+            line-height: 1.6;
+        }
+        
+        /* Tools Section */
+        .tools-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+        
+        .tool-card {
+            background: white;
+            border-radius: 24px;
+            overflow: hidden;
+            box-shadow: var(--shadow-lg);
+            border: 1px solid var(--gray-200);
+            transition: all 0.3s ease;
+            position: relative;
+        }
+        
+        .tool-card:hover {
+            transform: translateY(-8px);
+            box-shadow: var(--shadow-2xl);
+        }
+        
+        .tool-image {
+            height: 200px;
+            background: var(--primary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3rem;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .tool-image::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(45deg, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0) 100%);
         }
         
         .tool-content {
-            padding: 1.5rem;
+            padding: 2rem;
         }
         
-        .tool-content h3 {
+        .tool-title {
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: var(--gray-900);
             margin-bottom: 1rem;
-            color: var(--primary-color);
         }
         
-        .steps-container {
+        .tool-description {
+            color: var(--gray-600);
+            line-height: 1.6;
+            margin-bottom: 1.5rem;
+        }
+        
+        .tool-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: var(--primary-solid);
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+        
+        .tool-link:hover {
+            gap: 0.75rem;
+        }
+        
+        /* Steps */
+        .steps {
             max-width: 800px;
-            margin: 0 auto;
+            margin: 3rem auto 0;
         }
         
         .step {
             display: flex;
-            margin-bottom: 3rem;
             align-items: flex-start;
+            margin-bottom: 3rem;
+            position: relative;
+        }
+        
+        .step::before {
+            content: '';
+            position: absolute;
+            left: 30px;
+            top: 70px;
+            width: 2px;
+            height: calc(100% + 1rem);
+            background: var(--gray-200);
+        }
+        
+        .step:last-child::before {
+            display: none;
         }
         
         .step-number {
-            background-color: var(--primary-color);
-            color: white;
-            width: 50px;
-            height: 50px;
+            width: 60px;
+            height: 60px;
             border-radius: 50%;
+            background: var(--primary);
+            color: white;
             display: flex;
             align-items: center;
             justify-content: center;
             font-size: 1.5rem;
-            font-weight: bold;
-            margin-right: 1.5rem;
+            font-weight: 700;
+            margin-right: 2rem;
             flex-shrink: 0;
+            position: relative;
+            z-index: 1;
         }
         
         .step-content h3 {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--gray-900);
             margin-bottom: 0.5rem;
-            color: var(--primary-color);
         }
         
+        .step-content p {
+            color: var(--gray-600);
+            line-height: 1.6;
+        }
+        
+        /* Resources */
         .resources-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
             gap: 2rem;
+            margin-top: 3rem;
         }
         
         .resource-card {
-            background-color: white;
-            border-radius: 8px;
+            background: white;
+            border-radius: 20px;
+            padding: 2rem;
+            box-shadow: var(--shadow-lg);
+            border: 1px solid var(--gray-200);
+            transition: all 0.3s ease;
+            position: relative;
             overflow: hidden;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-            transition: transform 0.3s;
+        }
+        
+        .resource-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: var(--accent);
+            opacity: 0;
+            transition: all 0.3s ease;
         }
         
         .resource-card:hover {
             transform: translateY(-5px);
+            box-shadow: var(--shadow-2xl);
         }
         
-        .resource-content {
-            padding: 1.5rem;
+        .resource-card:hover::before {
+            opacity: 0.05;
         }
         
-        .resource-content h3 {
+        .resource-title {
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: var(--gray-900);
             margin-bottom: 1rem;
-            color: var(--primary-color);
+        }
+        
+        .resource-description {
+            color: var(--gray-600);
+            line-height: 1.6;
+            margin-bottom: 1.5rem;
         }
         
         .resource-link {
-            display: inline-block;
-            margin-top: 1rem;
-            color: var(--secondary-color);
-            font-weight: bold;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: var(--primary-solid);
+            font-weight: 600;
             text-decoration: none;
+            transition: all 0.3s ease;
         }
         
         .resource-link:hover {
-            text-decoration: underline;
+            gap: 0.75rem;
         }
         
+        /* Testimonials */
         .testimonials {
-            background-color: var(--dark-bg);
+            background: var(--dark);
+            color: white;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .testimonials::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.02'%3E%3Cpath d='m36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E") repeat;
+        }
+        
+        .testimonials .section-title {
             color: white;
         }
         
-        .testimonials .section-title h2 {
-            color: white;
-        }
-        
-        .testimonials-container {
+        .testimonials-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
             gap: 2rem;
+            margin-top: 3rem;
+            position: relative;
+            z-index: 1;
         }
         
         .testimonial-card {
-            background-color: rgba(255, 255, 255, 0.1);
-            border-radius: 8px;
-            padding: 2rem;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 24px;
+            padding: 2.5rem;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
             position: relative;
         }
         
-        .testimonial-text {
+        .testimonial-quote {
+            font-size: 1.125rem;
+            line-height: 1.7;
+            margin-bottom: 2rem;
             font-style: italic;
-            margin-bottom: 1rem;
+            position: relative;
+        }
+        
+        .testimonial-quote::before {
+            content: '"';
+            font-size: 4rem;
+            position: absolute;
+            top: -1rem;
+            left: -1rem;
+            color: rgba(255, 255, 255, 0.3);
+            font-family: serif;
         }
         
         .testimonial-author {
-            font-weight: bold;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
         }
         
-        .testimonial-role {
+        .testimonial-avatar {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: var(--primary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            font-weight: 700;
+        }
+        
+        .testimonial-info h4 {
+            font-weight: 600;
+            margin-bottom: 0.25rem;
+        }
+        
+        .testimonial-info p {
             opacity: 0.8;
-            font-size: 0.9rem;
+            font-size: 0.875rem;
         }
         
-        .faq-section {
+        /* FAQ */
+        .faq {
             max-width: 800px;
-            margin: 0 auto;
+            margin: 3rem auto 0;
         }
         
         .faq-item {
-            margin-bottom: 1.5rem;
-            border-bottom: 1px solid #e0e0e0;
-            padding-bottom: 1.5rem;
+            background: white;
+            border-radius: 16px;
+            margin-bottom: 1rem;
+            box-shadow: var(--shadow);
+            border: 1px solid var(--gray-200);
+            overflow: hidden;
         }
         
         .faq-question {
-            font-weight: bold;
-            margin-bottom: 0.5rem;
-            color: var(--primary-color);
+            padding: 1.5rem 2rem;
+            font-weight: 600;
+            color: var(--gray-900);
             cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: all 0.3s ease;
+        }
+        
+        .faq-question:hover {
+            background: var(--gray-50);
+        }
+        
+        .faq-toggle {
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            background: var(--primary);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.875rem;
+            transition: all 0.3s ease;
         }
         
         .faq-answer {
-            color: #666;
+            padding: 0 2rem 1.5rem;
+            color: var(--gray-600);
+            line-height: 1.6;
+            display: none;
         }
         
+        .faq-item.active .faq-answer {
+            display: block;
+        }
+        
+        .faq-item.active .faq-toggle {
+            transform: rotate(45deg);
+        }
+        
+        /* Contact */
         .contact-form {
             max-width: 600px;
-            margin: 0 auto;
-            background-color: white;
-            padding: 2rem;
-            border-radius: 8px;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            margin: 3rem auto 0;
+            background: white;
+            border-radius: 24px;
+            padding: 3rem;
+            box-shadow: var(--shadow-2xl);
+            border: 1px solid var(--gray-200);
         }
         
         .form-group {
@@ -360,455 +820,805 @@
         .form-label {
             display: block;
             margin-bottom: 0.5rem;
-            font-weight: bold;
+            font-weight: 600;
+            color: var(--gray-900);
         }
         
-        .form-input {
+        .form-input,
+        .form-textarea {
             width: 100%;
-            padding: 0.8rem;
-            border: 1px solid #ddd;
-            border-radius: 4px;
+            padding: 1rem 1.5rem;
+            border: 2px solid var(--gray-200);
+            border-radius: 12px;
             font-size: 1rem;
+            transition: all 0.3s ease;
+            background: var(--gray-50);
+        }
+        
+        .form-input:focus,
+        .form-textarea:focus {
+            outline: none;
+            border-color: var(--primary-solid);
+            background: white;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
         }
         
         .form-textarea {
-            width: 100%;
-            padding: 0.8rem;
-            border: 1px solid #ddd;
-            border-radius: 4px;
-            font-size: 1rem;
-            min-height: 150px;
+            min-height: 120px;
+            resize: vertical;
         }
         
-        .submit-button {
-            background-color: var(--primary-color);
+        .submit-btn {
+            width: 100%;
+            padding: 1rem 2rem;
+            background: var(--primary);
             color: white;
             border: none;
-            padding: 0.8rem 1.8rem;
-            border-radius: 30px;
+            border-radius: 12px;
             font-size: 1rem;
+            font-weight: 600;
             cursor: pointer;
-            transition: background-color 0.3s;
+            transition: all 0.3s ease;
         }
         
-        .submit-button:hover {
-            background-color: var(--secondary-color);
+        .submit-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-lg);
         }
         
-        footer {
-            background-color: var(--dark-bg);
+        /* Footer */
+        .footer {
+            background: var(--gray-900);
             color: white;
-            padding: 3rem 1rem;
-            text-align: center;
+            padding: 4rem 0 2rem;
+            position: relative;
         }
         
         .footer-content {
-            max-width: 1200px;
-            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 3rem;
+            margin-bottom: 3rem;
+        }
+        
+        .footer-section h3 {
+            font-size: 1.25rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
         }
         
         .footer-links {
-            display: flex;
-            justify-content: center;
             list-style: none;
-            margin: 2rem 0;
         }
         
         .footer-links li {
-            margin: 0 1rem;
+            margin-bottom: 0.5rem;
         }
         
         .footer-links a {
-            color: white;
+            color: var(--gray-400);
             text-decoration: none;
+            transition: all 0.3s ease;
         }
         
         .footer-links a:hover {
-            text-decoration: underline;
+            color: white;
+        }
+        
+        .footer-bottom {
+            border-top: 1px solid var(--gray-800);
+            padding-top: 2rem;
+            text-align: center;
+            color: var(--gray-500);
         }
         
         .social-links {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
             margin-bottom: 2rem;
         }
         
         .social-link {
-            display: inline-block;
-            margin: 0 0.5rem;
-            width: 40px;
-            height: 40px;
-            background-color: rgba(255, 255, 255, 0.1);
+            width: 50px;
+            height: 50px;
             border-radius: 50%;
-            display: inline-flex;
+            background: var(--gray-800);
+            display: flex;
             align-items: center;
             justify-content: center;
-            color: white;
+            color: var(--gray-400);
             text-decoration: none;
-            transition: background-color 0.3s;
+            transition: all 0.3s ease;
+            font-size: 1.25rem;
         }
         
         .social-link:hover {
-            background-color: var(--accent-color);
+            background: var(--primary-solid);
+            color: white;
+            transform: translateY(-3px);
         }
         
+        /* Responsive */
         @media (max-width: 768px) {
-            h1 {
-                font-size: 2.2rem;
-            }
-            
-            .nav-container {
-                flex-direction: column;
-            }
-            
             .nav-links {
-                margin-top: 1rem;
+                display: none;
             }
             
-            .nav-links li {
-                margin-left: 1rem;
-                margin-right: 1rem;
+            .mobile-menu-btn {
+                display: block;
+            }
+            
+            .hero h1 {
+                font-size: 3rem;
+            }
+            
+            .hero-subtitle {
+                font-size: 1.125rem;
+            }
+            
+            .cta-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .stats {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 1rem;
+            }
+            
+            .benefits-grid,
+            .tools-grid {
+                grid-template-columns: 1fr;
+                gap: 1.5rem;
             }
             
             .step {
                 flex-direction: column;
-                align-items: center;
                 text-align: center;
+            }
+            
+            .step::before {
+                display: none;
             }
             
             .step-number {
                 margin-right: 0;
                 margin-bottom: 1rem;
             }
+            
+            .contact-form {
+                margin: 2rem 1rem 0;
+                padding: 2rem;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .container {
+                padding: 0 1rem;
+            }
+            
+            .section {
+                padding: 4rem 0;
+            }
+            
+            .section-title {
+                font-size: 2rem;
+            }
+            
+            .benefit-card,
+            .tool-card,
+            .resource-card {
+                padding: 1.5rem;
+            }
+        }
+        
+        /* Utility Classes */
+        .text-center { text-align: center; }
+        .text-left { text-align: left; }
+        .text-right { text-align: right; }
+        
+        .hidden { display: none; }
+        .block { display: block; }
+        .inline-block { display: inline-block; }
+        .flex { display: flex; }
+        .grid { display: grid; }
+        
+        .items-center { align-items: center; }
+        .justify-center { justify-content: center; }
+        .justify-between { justify-content: space-between; }
+        
+        .mb-1 { margin-bottom: 0.25rem; }
+        .mb-2 { margin-bottom: 0.5rem; }
+        .mb-3 { margin-bottom: 0.75rem; }
+        .mb-4 { margin-bottom: 1rem; }
+        .mb-6 { margin-bottom: 1.5rem; }
+        .mb-8 { margin-bottom: 2rem; }
+        
+        .mt-1 { margin-top: 0.25rem; }
+        .mt-2 { margin-top: 0.5rem; }
+        .mt-3 { margin-top: 0.75rem; }
+        .mt-4 { margin-top: 1rem; }
+        .mt-6 { margin-top: 1.5rem; }
+        .mt-8 { margin-top: 2rem; }
+        
+        .p-1 { padding: 0.25rem; }
+        .p-2 { padding: 0.5rem; }
+        .p-3 { padding: 0.75rem; }
+        .p-4 { padding: 1rem; }
+        .p-6 { padding: 1.5rem; }
+        .p-8 { padding: 2rem; }
+        
+        .rounded { border-radius: 0.25rem; }
+        .rounded-md { border-radius: 0.375rem; }
+        .rounded-lg { border-radius: 0.5rem; }
+        .rounded-xl { border-radius: 0.75rem; }
+        .rounded-2xl { border-radius: 1rem; }
+        .rounded-full { border-radius: 9999px; }
+        
+        .shadow { box-shadow: var(--shadow); }
+        .shadow-md { box-shadow: var(--shadow-md); }
+        .shadow-lg { box-shadow: var(--shadow-lg); }
+        .shadow-xl { box-shadow: var(--shadow-xl); }
+        .shadow-2xl { box-shadow: var(--shadow-2xl); }
+        
+        .transition { transition: all 0.3s ease; }
+        .transition-fast { transition: all 0.15s ease; }
+        .transition-slow { transition: all 0.5s ease; }
+        
+        .hover-lift:hover {
+            transform: translateY(-5px);
+        }
+        
+        .hover-scale:hover {
+            transform: scale(1.05);
+        }
+        
+        .gradient-text {
+            background: var(--primary);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
         }
     </style>
 </head>
 <body>
-    <!-- Header Section -->
-    <header>
-        <div class="header-content">
-            <h1>Homeschooling Using AI</h1>
-            <p class="tagline">Transform your homeschooling experience with the power of artificial intelligence</p>
-            <a href="#get-started" class="cta-button">Get Started</a>
-        </div>
-    </header>
-    
     <!-- Navigation -->
-    <nav>
+    <nav class="nav">
         <div class="nav-container">
-            <div class="logo">HomeschoolAI</div>
+            <div class="logo">🧠 HomeschoolAI</div>
             <ul class="nav-links">
                 <li><a href="#benefits">Benefits</a></li>
                 <li><a href="#tools">AI Tools</a></li>
-                <li><a href="#get-started">Get Started</a></li>
+                <li><a href="#steps">Get Started</a></li>
                 <li><a href="#resources">Resources</a></li>
+                <li><a href="#testimonials">Reviews</a></li>
                 <li><a href="#faq">FAQ</a></li>
                 <li><a href="#contact">Contact</a></li>
             </ul>
+            <button class="mobile-menu-btn">☰</button>
         </div>
     </nav>
-    
+
+    <!-- Header -->
+    <header class="header">
+        <div class="hero">
+            <h1 class="animate-fade-in-up">Revolutionize Learning with AI</h1>
+            <p class="hero-subtitle animate-fade-in-up">Transform your homeschooling journey with cutting-edge artificial intelligence that adapts to your child's unique learning style and pace.</p>
+            
+            <div class="cta-buttons animate-fade-in-up">
+                <a href="#steps" class="btn btn-primary">🚀 Start Your Journey</a>
+                <a href="#tools" class="btn btn-secondary">🔧 Explore Tools</a>
+            </div>
+            
+            <div class="stats">
+                <div class="stat animate-fade-in-left">
+                    <div class="stat-number">10K+</div>
+                    <div class="stat-label">Families Served</div>
+                </div>
+                <div class="stat animate-fade-in-up">
+                    <div class="stat-number">98%</div>
+                    <div class="stat-label">Satisfaction Rate</div>
+                </div>
+                <div class="stat animate-fade-in-up">
+                    <div class="stat-number">50+</div>
+                    <div class="stat-label">AI Tools Available</div>
+                </div>
+                <div class="stat animate-fade-in-right">
+                    <div class="stat-number">24/7</div>
+                    <div class="stat-label">AI Support</div>
+                </div>
+            </div>
+        </div>
+    </header>
+
     <!-- Benefits Section -->
-    <section id="benefits">
+    <section id="benefits" class="section">
         <div class="container">
-            <div class="section-title">
-                <h2>Benefits of AI in Homeschooling</h2>
+            <div class="section-header">
+                <div class="section-badge">✨ Why Choose AI?</div>
+                <h2 class="section-title">Transform Education with Intelligence</h2>
+                <p class="section-description">Discover how artificial intelligence is revolutionizing homeschooling, making personalized education accessible to every family.</p>
             </div>
-            <div class="benefits-container">
-                <div class="benefit-card">
+            
+            <div class="benefits-grid">
+                <div class="benefit-card hover-lift">
                     <div class="benefit-icon">📊</div>
-                    <div class="benefit-content">
-                        <h3>Personalized Learning</h3>
-                        <p>AI adapts to your child's learning style, pace, and interests, creating truly personalized education experiences that traditional methods can't match.</p>
-                    </div>
+                    <h3 class="benefit-title">Personalized Learning Paths</h3>
+                    <p class="benefit-description">AI algorithms analyze your child's learning patterns, strengths, and challenges to create truly personalized educational experiences that adapt in real-time.</p>
                 </div>
-                <div class="benefit-card">
-                    <div class="benefit-icon">⏱️</div>
-                    <div class="benefit-content">
-                        <h3>Time-Saving</h3>
-                        <p>Automate lesson planning, grading, and administrative tasks so you can focus more on quality teaching time with your children.</p>
-                    </div>
+                
+                <div class="benefit-card hover-lift">
+                    <div class="benefit-icon">⚡</div>
+                    <h3 class="benefit-title">Smart Time Management</h3>
+                    <p class="benefit-description">Automate lesson planning, generate custom worksheets, and streamline administrative tasks so you can focus on what matters most - teaching.</p>
                 </div>
-                <div class="benefit-card">
-                    <div class="benefit-icon">🌐</div>
-                    <div class="benefit-content">
-                        <h3>Access to Expertise</h3>
-                        <p>Get instant help in subjects you're less confident teaching, with AI assistants that can explain complex topics in age-appropriate ways.</p>
-                    </div>
+                
+                <div class="benefit-card hover-lift">
+                    <div class="benefit-icon">🎯</div>
+                    <h3 class="benefit-title">Instant Expert Support</h3>
+                    <p class="benefit-description">Get immediate help in any subject with AI tutors that explain complex concepts in age-appropriate ways, available 24/7.</p>
                 </div>
-                <div class="benefit-card">
+                
+                <div class="benefit-card hover-lift">
                     <div class="benefit-icon">📈</div>
-                    <div class="benefit-content">
-                        <h3>Progress Tracking</h3>
-                        <p>Monitor your child's development with sophisticated analytics that identify strengths, weaknesses, and learning gaps in real-time.</p>
-                    </div>
+                    <h3 class="benefit-title">Advanced Analytics</h3>
+                    <p class="benefit-description">Track progress with sophisticated analytics that identify learning gaps, predict challenges, and suggest interventions before problems arise.</p>
                 </div>
-                <div class="benefit-card">
+                
+                <div class="benefit-card hover-lift">
                     <div class="benefit-icon">🎮</div>
-                    <div class="benefit-content">
-                        <h3>Gamified Learning</h3>
-                        <p>Engage children through AI-powered educational games that make learning fun while reinforcing important concepts and skills.</p>
+                    <h3 class="benefit-title">Gamified Experiences</h3>
+                    <p class="benefit-description">Transform learning into an adventure with AI-powered educational games that make complex subjects engaging and fun.</p>
+                </div>
+                
+                <div class="benefit-card hover-lift">
+                    <div class="benefit-icon">🌐</div>
+                    <h3 class="benefit-title">Unlimited Resources</h3>
+                    <p class="benefit-description">Access an infinite library of custom-generated content, from practice problems to creative writing prompts, all tailored to your curriculum.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Tools Section -->
+    <section id="tools" class="section">
+        <div class="container">
+            <div class="section-header">
+                <div class="section-badge">🛠️ Power Tools</div>
+                <h2 class="section-title">Essential AI Tools for Modern Homeschooling</h2>
+                <p class="section-description">Discover the cutting-edge AI tools that are transforming how families approach education at home.</p>
+            </div>
+            
+            <div class="tools-grid">
+                <div class="tool-card hover-lift">
+                    <div class="tool-image">🤖</div>
+                    <div class="tool-content">
+                        <h3 class="tool-title">AI Tutoring Assistants</h3>
+                        <p class="tool-description">Smart virtual tutors that provide personalized instruction, answer questions instantly, and adapt to your child's learning pace across all subjects.</p>
+                        <a href="#" class="tool-link">Learn More →</a>
                     </div>
                 </div>
-                <div class="benefit-card">
-                    <div class="benefit-icon">🧩</div>
-                    <div class="benefit-content">
-                        <h3>Diverse Learning Resources</h3>
-                        <p>Generate custom worksheets, interactive exercises, and learning materials tailored to your curriculum and your child's needs.</p>
+                
+                <div class="tool-card hover-lift">
+                    <div class="tool-image">📚</div>
+                    <div class="tool-content">
+                        <h3 class="tool-title">Smart Curriculum Builders</h3>
+                        <p class="tool-description">Generate complete lesson plans and curricula aligned with educational standards, customized for your child's interests and learning objectives.</p>
+                        <a href="#" class="tool-link">Explore Now →</a>
+                    </div>
+                </div>
+                
+                <div class="tool-card hover-lift">
+                    <div class="tool-image">🧮</div>
+                    <div class="tool-content">
+                        <h3 class="tool-title">Interactive Math Solvers</h3>
+                        <p class="tool-description">Advanced problem-solving tools that not only provide answers but explain each step, helping students understand mathematical concepts deeply.</p>
+                        <a href="#" class="tool-link">Try Free →</a>
+                    </div>
+                </div>
+                
+                <div class="tool-card hover-lift">
+                    <div class="tool-image">✍️</div>
+                    <div class="tool-content">
+                        <h3 class="tool-title">Writing Enhancement AI</h3>
+                        <p class="tool-description">Intelligent writing assistants that provide real-time feedback on grammar, style, creativity, and structure for all age levels.</p>
+                        <a href="#" class="tool-link">Start Writing →</a>
+                    </div>
+                </div>
+                
+                <div class="tool-card hover-lift">
+                    <div class="tool-image">🗣️</div>
+                    <div class="tool-content">
+                        <h3 class="tool-title">Language Learning AI</h3>
+                        <p class="tool-description">Immersive language learning with native pronunciation feedback, conversation practice, and cultural context integration.</p>
+                        <a href="#" class="tool-link">Discover →</a>
+                    </div>
+                </div>
+                
+                <div class="tool-card hover-lift">
+                    <div class="tool-image">📊</div>
+                    <div class="tool-content">
+                        <h3 class="tool-title">Adaptive Assessment Tools</h3>
+                        <p class="tool-description">Generate custom quizzes and tests that adapt difficulty based on performance, providing detailed insights into learning progress.</p>
+                        <a href="#" class="tool-link">Assess Now →</a>
                     </div>
                 </div>
             </div>
         </div>
     </section>
-    
-    <!-- AI Tools Section -->
-    <section id="tools">
+
+    <!-- Steps Section -->
+    <section id="steps" class="section">
         <div class="container">
-            <div class="section-title">
-                <h2>Essential AI Tools for Homeschooling</h2>
+            <div class="section-header">
+                <div class="section-badge">🚀 Getting Started</div>
+                <h2 class="section-title">Your AI Homeschooling Journey</h2>
+                <p class="section-description">Follow these simple steps to integrate AI into your homeschooling routine and unlock your child's full potential.</p>
             </div>
-            <div class="tools-container">
-                <div class="tool-card">
-                    <div class="tool-img">AI Tutoring Assistants</div>
-                    <div class="tool-content">
-                        <h3>AI Tutoring Assistants</h3>
-                        <p>Virtual tutors available 24/7 to answer questions, explain concepts, and provide guided learning across all subjects.</p>
-                    </div>
-                </div>
-                <div class="tool-card">
-                    <div class="tool-img">Curriculum Generators</div>
-                    <div class="tool-content">
-                        <h3>Curriculum Generators</h3>
-                        <p>Create customized lesson plans and full curricula aligned with educational standards but tailored to your child's unique needs.</p>
-                    </div>
-                </div>
-                <div class="tool-card">
-                    <div class="tool-img">Math Problem Solvers</div>
-                    <div class="tool-content">
-                        <h3>Math Problem Solvers</h3>
-                        <p>Tools that not only solve math problems but explain the steps and concepts behind the solutions for better understanding.</p>
-                    </div>
-                </div>
-                <div class="tool-card">
-                    <div class="tool-img">Writing Assistants</div>
-                    <div class="tool-content">
-                        <h3>Writing Assistants</h3>
-                        <p>Help students improve their writing with real-time feedback on grammar, structure, clarity, and style appropriate for their age level.</p>
-                    </div>
-                </div>
-                <div class="tool-card">
-                    <div class="tool-img">Language Learning AI</div>
-                    <div class="tool-content">
-                        <h3>Language Learning AI</h3>
-                        <p>Interactive language learning with pronunciation feedback, conversation practice, and personalized vocabulary building.</p>
-                    </div>
-                </div>
-                <div class="tool-card">
-                    <div class="tool-img">Assessment Tools</div>
-                    <div class="tool-content">
-                        <h3>Assessment Tools</h3>
-                        <p>Generate custom quizzes and tests that adapt to your child's knowledge level, providing detailed insights into their understanding.</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-    
-    <!-- Get Started Section -->
-    <section id="get-started">
-        <div class="container">
-            <div class="section-title">
-                <h2>How to Get Started</h2>
-            </div>
-            <div class="steps-container">
+            
+            <div class="steps">
                 <div class="step">
                     <div class="step-number">1</div>
                     <div class="step-content">
-                        <h3>Assess Your Needs</h3>
-                        <p>Begin by identifying your specific homeschooling challenges and goals. Are you looking for help with curriculum development, daily instruction, or subject-specific support? Understanding your needs will help you select the right AI tools.</p>
+                        <h3>Assess & Plan</h3>
+                        <p>Begin by evaluating your current homeschooling challenges and goals. Identify areas where AI could provide the most value - whether it's curriculum development, daily instruction, or specialized subject support.</p>
                     </div>
                 </div>
+                
                 <div class="step">
                     <div class="step-number">2</div>
                     <div class="step-content">
-                        <h3>Start with Basic AI Tools</h3>
-                        <p>Begin with user-friendly AI platforms like Claude, ChatGPT, or Bard to help with lesson planning, answering questions, and creating customized learning materials. Most have free tiers that allow you to experiment before committing.</p>
+                        <h3>Choose Your AI Tools</h3>
+                        <p>Start with beginner-friendly platforms like ChatGPT, Claude, or specialized educational AI tools. Most offer free tiers perfect for experimentation before committing to premium features.</p>
                     </div>
                 </div>
+                
                 <div class="step">
                     <div class="step-number">3</div>
                     <div class="step-content">
-                        <h3>Learn Effective Prompting</h3>
-                        <p>The quality of AI assistance depends on how well you communicate your needs. Learn to write clear, specific prompts that include age level, learning objectives, and any specific requirements for the best results.</p>
+                        <h3>Master AI Prompting</h3>
+                        <p>Learn the art of crafting effective prompts. Be specific about age levels, learning objectives, and desired outcomes to get the most valuable assistance from AI tools.</p>
                     </div>
                 </div>
+                
                 <div class="step">
                     <div class="step-number">4</div>
                     <div class="step-content">
-                        <h3>Integrate AI Gradually</h3>
-                        <p>Incorporate AI tools one at a time into your homeschooling routine. Start with one subject or one aspect of your teaching, evaluate the results, and then expand as you become more comfortable.</p>
+                        <h3>Integrate Gradually</h3>
+                        <p>Implement AI tools one subject or task at a time. Start small, evaluate results, and gradually expand usage as you become more comfortable and see positive outcomes.</p>
                     </div>
                 </div>
+                
                 <div class="step">
                     <div class="step-number">5</div>
                     <div class="step-content">
-                        <h3>Join AI Homeschooling Communities</h3>
-                        <p>Connect with other homeschooling parents who are using AI. These communities are great for sharing prompts, tool recommendations, and strategies that work well in real homeschooling environments.</p>
+                        <h3>Join the Community</h3>
+                        <p>Connect with other AI-powered homeschooling families. Share experiences, exchange prompts, and learn from others who are successfully using AI in their educational journey.</p>
                     </div>
                 </div>
             </div>
         </div>
     </section>
-    
+
     <!-- Resources Section -->
-    <section id="resources">
+    <section id="resources" class="section">
         <div class="container">
-            <div class="section-title">
-                <h2>AI Homeschooling Resources</h2>
+            <div class="section-header">
+                <div class="section-badge">📚 Resources</div>
+                <h2 class="section-title">Everything You Need to Succeed</h2>
+                <p class="section-description">Access our comprehensive collection of resources, templates, and guides to maximize your AI homeschooling experience.</p>
             </div>
+            
             <div class="resources-grid">
-                <div class="resource-card">
-                    <div class="resource-content">
-                        <h3>Prompt Libraries</h3>
-                        <p>Collections of effective prompts specifically designed for homeschooling use cases, from lesson planning to creating educational games.</p>
-                        <a href="#" class="resource-link">Browse Libraries →</a>
-                    </div>
+                <div class="resource-card hover-lift">
+                    <h3 class="resource-title">💡 Prompt Libraries</h3>
+                    <p class="resource-description">Curated collections of proven prompts for every subject and age level, created by experienced homeschooling parents.</p>
+                    <a href="#" class="resource-link">Browse Collection →</a>
                 </div>
-                <div class="resource-card">
-                    <div class="resource-content">
-                        <h3>Video Tutorials</h3>
-                        <p>Step-by-step guides on using various AI tools for specific homeschooling tasks, created by experienced homeschooling parents.</p>
-                        <a href="#" class="resource-link">Watch Tutorials →</a>
-                    </div>
+                
+                <div class="resource-card hover-lift">
+                    <h3 class="resource-title">🎥 Video Masterclasses</h3>
+                    <p class="resource-description">Step-by-step tutorials showing exactly how to use AI tools for specific homeschooling tasks and challenges.</p>
+                    <a href="#" class="resource-link">Watch Now →</a>
                 </div>
-                <div class="resource-card">
-                    <div class="resource-content">
-                        <h3>Curriculum Templates</h3>
-                        <p>AI-ready curriculum frameworks that you can customize for different subjects, age groups, and learning approaches.</p>
-                        <a href="#" class="resource-link">Download Templates →</a>
-                    </div>
+                
+                <div class="resource-card hover-lift">
+                    <h3 class="resource-title">📋 Curriculum Templates</h3>
+                    <p class="resource-description">Ready-to-use curriculum frameworks optimized for AI enhancement across different subjects and grade levels.</p>
+                    <a href="#" class="resource-link">Download Free →</a>
                 </div>
-                <div class="resource-card">
-                    <div class="resource-content">
-                        <h3>Online Workshops</h3>
-                        <p>Live and recorded sessions on advanced AI homeschooling techniques, from creating interactive lessons to using AI for special education needs.</p>
-                        <a href="#" class="resource-link">Register Now →</a>
-                    </div>
+                
+                <div class="resource-card hover-lift">
+                    <h3 class="resource-title">🎓 Live Workshops</h3>
+                    <p class="resource-description">Interactive sessions covering advanced AI techniques, special education applications, and emerging tools.</p>
+                    <a href="#" class="resource-link">Register Today →</a>
                 </div>
-                <div class="resource-card">
-                    <div class="resource-content">
-                        <h3>AI Tool Directory</h3>
-                        <p>Comprehensive list of AI tools with reviews from homeschooling parents, organized by subject area and age appropriateness.</p>
-                        <a href="#" class="resource-link">Explore Tools →</a>
-                    </div>
+                
+                <div class="resource-card hover-lift">
+                    <h3 class="resource-title">🔍 Tool Directory</h3>
+                    <p class="resource-description">Comprehensive database of AI tools with detailed reviews, pricing information, and real parent testimonials.</p>
+                    <a href="#" class="resource-link">Explore Tools →</a>
                 </div>
-                <div class="resource-card">
-                    <div class="resource-content">
-                        <h3>Parent Community</h3>
-                        <p>Join our forum where homeschooling parents share AI strategies, troubleshoot problems, and celebrate successes together.</p>
-                        <a href="#" class="resource-link">Join Community →</a>
-                    </div>
+                
+                <div class="resource-card hover-lift">
+                    <h3 class="resource-title">👥 Parent Network</h3>
+                    <p class="resource-description">Join thousands of homeschooling parents sharing AI strategies, success stories, and ongoing support.</p>
+                    <a href="#" class="resource-link">Join Community →</a>
                 </div>
             </div>
         </div>
     </section>
-    
+
     <!-- Testimonials Section -->
-    <section id="testimonials" class="testimonials">
+    <section id="testimonials" class="testimonials section">
         <div class="container">
-            <div class="section-title">
-                <h2>Success Stories</h2>
+            <div class="section-header">
+                <div class="section-badge">⭐ Success Stories</div>
+                <h2 class="section-title">Real Results from Real Families</h2>
+                <p class="section-description">See how AI is transforming homeschooling experiences for families around the world.</p>
             </div>
-            <div class="testimonials-container">
+            
+            <div class="testimonials-grid">
                 <div class="testimonial-card">
-                    <p class="testimonial-text">"AI tools have revolutionized how I approach math with my 10-year-old son. Now he gets personalized practice problems that target exactly what he's struggling with, and I can help him more effectively."</p>
-                    <p class="testimonial-author">Sarah Johnson</p>
-                    <p class="testimonial-role">Homeschooling parent of 2 children</p>
+                    <p class="testimonial-quote">AI has completely transformed how we approach math in our homeschool. My daughter went from struggling with fractions to confidently solving complex problems. The personalized practice and instant feedback have made all the difference.</p>
+                    <div class="testimonial-author">
+                        <div class="testimonial-avatar">SJ</div>
+                        <div class="testimonial-info">
+                            <h4>Sarah Johnson</h4>
+                            <p>Homeschooling mom of 3, Texas</p>
+                        </div>
+                    </div>
                 </div>
+                
                 <div class="testimonial-card">
-                    <p class="testimonial-text">"As a single parent homeschooling three kids of different ages, AI has been a lifesaver. It helps me create individualized lesson plans in a fraction of the time it used to take me."</p>
-                    <p class="testimonial-author">Michael Torres</p>
-                    <p class="testimonial-role">Homeschooling father for 5 years</p>
+                    <p class="testimonial-quote">As a single parent homeschooling multiple kids, AI has been a lifesaver. I can create individualized lesson plans in minutes instead of hours, and my children are more engaged than ever with their learning.</p>
+                    <div class="testimonial-author">
+                        <div class="testimonial-avatar">MT</div>
+                        <div class="testimonial-info">
+                            <h4>Michael Torres</h4>
+                            <p>Single dad, California</p>
+                        </div>
+                    </div>
                 </div>
+                
                 <div class="testimonial-card">
-                    <p class="testimonial-text">"My daughter has dyslexia, and AI reading assistants have helped her gain confidence and independence in her learning. The personalized pace and adaptive techniques have made all the difference."</p>
-                    <p class="testimonial-author">Lisa Chen</p>
-                    <p class="testimonial-role">Parent of a child with learning differences</p>
+                    <p class="testimonial-quote">My son has ADHD and traditional learning methods weren't working. AI tools that gamify learning and adapt to his attention span have been incredible. He's actually excited about school now!</p>
+                    <div class="testimonial-author">
+                        <div class="testimonial-avatar">LC</div>
+                        <div class="testimonial-info">
+                            <h4>Lisa Chen</h4>
+                            <p>Special needs advocate, New York</p>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
     </section>
-    
+
     <!-- FAQ Section -->
-    <section id="faq">
+    <section id="faq" class="section">
         <div class="container">
-            <div class="section-title">
-                <h2>Frequently Asked Questions</h2>
+            <div class="section-header">
+                <div class="section-badge">❓ FAQ</div>
+                <h2 class="section-title">Your Questions Answered</h2>
+                <p class="section-description">Find answers to the most common questions about integrating AI into your homeschooling journey.</p>
             </div>
-            <div class="faq-section">
+            
+            <div class="faq">
                 <div class="faq-item">
-                    <div class="faq-question">Is AI a replacement for parent teaching in homeschooling?</div>
-                    <div class="faq-answer">No, AI is a tool to enhance your teaching, not replace it. The parent's role remains crucial for guidance, emotional support, values education, and ensuring learning is appropriate and on track. AI works best as your assistant, handling routine tasks and providing additional resources.</div>
+                    <div class="faq-question">
+                        Will AI replace me as a teacher?
+                        <div class="faq-toggle">+</div>
+                    </div>
+                    <div class="faq-answer">
+                        Absolutely not! AI is designed to enhance and support your teaching, not replace it. Your role as a parent-educator remains crucial for emotional support, values education, critical thinking development, and ensuring appropriate learning progression. AI simply handles the heavy lifting of content creation and provides additional resources.
+                    </div>
                 </div>
+                
                 <div class="faq-item">
-                    <div class="faq-question">How much does it cost to use AI for homeschooling?</div>
-                    <div class="faq-answer">Many AI tools offer free tiers that are sufficient for basic homeschooling needs. Premium tools typically range from $10-30 per month. You can start with free options and invest in paid tools only for specific needs where they provide significant value.</div>
+                    <div class="faq-question">
+                        What's the cost of using AI for homeschooling?
+                        <div class="faq-toggle">+</div>
+                    </div>
+                    <div class="faq-answer">
+                        Many powerful AI tools offer robust free tiers perfect for getting started. Premium features typically range from $10-30 monthly. Start with free options and invest in paid tools only when you see clear value for your specific needs.
+                    </div>
                 </div>
+                
                 <div class="faq-item">
-                    <div class="faq-question">Do I need technical skills to use AI in homeschooling?</div>
-                    <div class="faq-answer">Most modern AI tools are designed to be user-friendly with simple interfaces. Basic computer skills are sufficient to get started. The learning curve focuses more on how to write effective prompts rather than technical knowledge.</div>
+                    <div class="faq-question">
+                        Do I need technical skills to get started?
+                        <div class="faq-toggle">+</div>
+                    </div>
+                    <div class="faq-answer">
+                        Not at all! Modern AI tools are designed with user-friendly interfaces. If you can use a smartphone or browse the web, you can use AI for homeschooling. The learning curve focuses on crafting good prompts rather than technical knowledge.
+                    </div>
                 </div>
+                
                 <div class="faq-item">
-                    <div class="faq-question">How accurate is the information provided by AI?</div>
-                    <div class="faq-answer">AI accuracy varies by tool and subject. While AI can provide generally reliable information, it's important to verify critical facts, especially for academic subjects. Using reputable AI tools and cross-checking important information with traditional sources is recommended.</div>
+                    <div class="faq-question">
+                        How accurate is AI-generated educational content?
+                        <div class="faq-toggle">+</div>
+                    </div>
+                    <div class="faq-answer">
+                        AI accuracy has improved dramatically and is generally reliable for educational content. However, it's always good practice to review important information, especially for advanced topics. Use AI as a starting point and verify critical facts with trusted sources.
+                    </div>
                 </div>
+                
                 <div class="faq-item">
-                    <div class="faq-question">Can AI help with special education needs?</div>
-                    <div class="faq-answer">Yes, AI can be particularly valuable for special education, offering adaptable content, patient repetition, and different presentation formats. However, it should complement rather than replace specialized interventions for children with significant learning differences.</div>
+                    <div class="faq-question">
+                        Can AI help with special learning needs?
+                        <div class="faq-toggle">+</div>
+                    </div>
+                    <div class="faq-answer">
+                        Yes! AI excels at creating adaptable content, providing infinite patience for repetition, and offering multiple learning modalities. It's particularly valuable for children with ADHD, dyslexia, or other learning differences, though it should complement professional interventions.
+                    </div>
                 </div>
+                
                 <div class="faq-item">
-                    <div class="faq-question">How do I ensure my child isn't becoming too dependent on AI?</div>
-                    <div class="faq-answer">Set clear boundaries for AI use, alternating between AI and non-AI learning activities. Focus on using AI to develop critical thinking rather than just provide answers. Teach your child to evaluate AI responses critically rather than accepting them without question.</div>
+                    <div class="faq-question">
+                        How do I prevent AI dependency in my child?
+                        <div class="faq-toggle">+</div>
+                    </div>
+                    <div class="faq-answer">
+                        Set clear boundaries and alternate between AI-assisted and traditional learning activities. Focus on using AI to develop critical thinking skills rather than just providing answers. Teach your child to evaluate and question AI responses rather than accepting them blindly.
+                    </div>
                 </div>
             </div>
         </div>
     </section>
-    
+
     <!-- Contact Section -->
-    <section id="contact">
+    <section id="contact" class="section">
         <div class="container">
-            <div class="section-title">
-                <h2>Get in Touch</h2>
+            <div class="section-header">
+                <div class="section-badge">💬 Get in Touch</div>
+                <h2 class="section-title">Ready to Transform Your Homeschool?</h2>
+                <p class="section-description">Have questions or want personalized guidance? We're here to help you succeed with AI-powered homeschooling.</p>
             </div>
+            
             <div class="contact-form">
                 <form>
                     <div class="form-group">
-                        <label for="name" class="form-label">Name</label>
-                        <input type="text" id="name" class="form-input" placeholder="Your Name">
+                        <label for="name" class="form-label">Full Name</label>
+                        <input type="text" id="name" class="form-input" placeholder="Enter your name" required>
                     </div>
+                    
                     <div class="form-group">
-                        <label for="email" class="form-label">Email</label>
-                        <input type="email" id="email" class="form-input" placeholder="Your Email">
+                        <label for="email" class="form-label">Email Address</label>
+                        <input type="email" id="email" class="form-input" placeholder="your.email@example.com" required>
                     </div>
+                    
                     <div class="form-group">
                         <label for="subject" class="form-label">Subject</label>
-                        <input type="text" id="subject" class="form-input" placeholder="Subject">
+                        <input type="text" id="subject" class="form-input" placeholder="How can we help you?" required>
                     </div>
+                    
                     <div class="form-group">
                         <label for="message" class="form-label">Message</label>
-                        <textarea id="message" class="form-textarea" placeholder="Your Message"></textarea>
+                        <textarea id="message" class="form-textarea" placeholder="Tell us about your homeschooling goals and challenges..." required></textarea>
                     </div>
-                    <button type="submit" class="submit-button">Send Message</button>
+                    
+                    <button type="submit" class="submit-btn">Send Message 🚀</button>
                 </form>
             </div>
         </div>
     </section>
-    
+
     <!-- Footer -->
-    <footer>
-        <div class="footer-content">
-            <div class="logo">HomeschoolAI</div>
-            <ul class="footer-links">
-                <li><a href="#benefits">Benefits</a></li>
-                <li><a href="#tools">AI Tools</a></li>
-                <li><a href="#get-started">Get Started</a></li>
-                <li><a href="#resources">Resources</a></li>
-                <li><a href="#faq">FAQ</a></li
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>🧠 HomeschoolAI</h3>
+                    <p>Empowering families with AI-driven education solutions that adapt to every child's unique learning journey.</p>
+                </div>
+                
+                <div class="footer-section">
+                    <h3>Quick Links</h3>
+                    <ul class="footer-links">
+                        <li><a href="#benefits">Benefits</a></li>
+                        <li><a href="#tools">AI Tools</a></li>
+                        <li><a href="#steps">Get Started</a></li>
+                        <li><a href="#resources">Resources</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-section">
+                    <h3>Support</h3>
+                    <ul class="footer-links">
+                        <li><a href="#faq">FAQ</a></li>
+                        <li><a href="#contact">Contact</a></li>
+                        <li><a href="#">Help Center</a></li>
+                        <li><a href="#">Community</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-section">
+                    <h3>Legal</h3>
+                    <ul class="footer-links">
+                        <li><a href="#">Privacy Policy</a></li>
+                        <li><a href="#">Terms of Service</a></li>
+                        <li><a href="#">Cookie Policy</a></li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="social-links">
+                <a href="#" class="social-link">📘</a>
+                <a href="#" class="social-link">🐦</a>
+                <a href="#" class="social-link">📷</a>
+                <a href="#" class="social-link">💼</a>
+                <a href="#" class="social-link">📺</a>
+            </div>
+            
+            <div class="footer-bottom">
+                <p>&copy; 2024 HomeschoolAI. All rights reserved. Built with 💜 for homeschooling families.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Smooth scrolling for navigation links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // FAQ Toggle Functionality
+        document.querySelectorAll('.faq-question').forEach(question => {
+            question.addEventListener('click', function() {
+                const item = this.parentNode;
+                const isActive = item.classList.contains('active');
+                
+                // Close all FAQ items
+                document.querySelectorAll('.faq-item').forEach(faq => {
+                    faq.classList.remove('active');
+                });
+                
+                // Open clicked item if it wasn't active
+                if (!isActive) {
+                    item.classList.add('active');
+                }
+            });
+        });
+
+        // Form submission handler
+        document.querySelector('.contact-form form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            // Get form data
+            const formData = new FormData(this);
+            const name = formData.get('name');
+            const email = formData.get('email');
+            const subject = formData.get('subject');
+            const message = formData.get('message');
+            
+            // Simple validation
+            if (!name || !email || !subject || !message) {
+                alert('Please fill in all fields.');
+                return;
+            }
+            
+            // Simulate form submission
+            const submitBtn = this.querySelector('.submit-btn');
+            const originalText = submitBtn.textContent;
+            
+            submitBtn.textContent = 'Sending... ✨';
+            submitBtn.disabled = true;
+            
+            setTimeout(() => {
+                alert('Thank you for your message! We\'ll get back to you soon. 🎉');
+                this.reset();
+                submitBtn.textContent = originalText;
+                submitBtn.disabled = false;
+            }, 2000);
